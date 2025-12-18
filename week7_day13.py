@@ -64,9 +64,9 @@ slides = [
         "\t - 5회전: [] + [1, 2, 3, 5, 7]",
     ]),
     ("HEAP_SORT", [
-        "함수 HEAP_SORT(리스트 L):","",
+        "함수 HEAP_SORT(배열리스트 L):","",
         "힙 heap = 새 최대힙(L->data, L->size)","",
-        "반복: i는 L의 마지막 인덱스부터 시작 인덱스까지 감소","",
+        "반복: i는 L의 전체 인덱스를 거꾸로","",
         "\t L->data[i] = HEAP_POP(heap)","",
         "삭제: heap","",
     ]),
@@ -86,7 +86,7 @@ slides = [
     ("HEAP_SORT의 시간 복잡도 (계속)", [
         "HEAP_POP 수행시 시간복잡도 (perfect binary tree):","",
         "\t - 트리 높이가 h이면: 비교 2h회, 교환 h회","",
-        "\t - ... 높이가 1이면: 비교 2회, 교환 h회","",
+        "\t - ... 높이가 1이면: 비교 2회, 교환 1회","",
         "\t - 비교 총합: 2 * h * n / 2^1 + 2 * (h - 1) * n / 2^2 + ...","",
         "\t\t\t = sigma (i = 0 to h-1) ((h - i) * n / 2^i)","",
         "\t\t\t = hn sigma (i = 0 to h-1) (1 / 2^i) - n sigma (i = 0 to h-1) (i / 2^i)","",
@@ -170,7 +170,7 @@ slides = [
 
     ("QUICK_SORT", [
         "함수 QUICK_SORT(리스트 L, 인덱스 lo, 인덱스 hi):","",
-        "만약: lo < right이면","",
+        "만약: lo < hi이면","",
         "\t pivot = PARTITION(L, lo, hi)","",
         "\t QUICK_SORT(L, lo, pivot - 1)","",
         "\t QUICK_SORT(L, pivot + 1, hi)","",
@@ -198,8 +198,8 @@ slides = [
         "\t - 위 두 식을 빼면, n * C(n) - (n - 1) * C(n - 1) = (n - 1)(n - 2) + 2 * C(n - 1)","",
         "\t - 따라서, n * C(n) = (n + 1) * C(n - 1) + 2(n - 1)","",
         "\t - 다시 쓰면, C(n) / (n + 1) = C(n - 1) / n + 2(n - 1) / n(n + 1)","",
-        "\t\t\t  = C(n) / (n + 1) + 2 / n - 4 / (n(n + 1))"
-        "\t\t\t  ~~ 2 sigma 1 / n"
+        "\t\t\t  = C(n) / (n + 1) + 2 / n - 4 / (n(n + 1))",
+        "\t\t\t  ~~ 2 sigma 1 / n",
         "\t - 적분으로 근사하면, 2 sigma 1 / n ~~ 2 ln n","",
         "\t - 따라서, C(n) ~~ 2n ln n","",
         "평균 교환 횟수는 C(n)/2 ~~ n ln n","",
@@ -234,7 +234,7 @@ slides = [
         "\t value = L->data[rear] \t // 이동할 데이터",
         "\t i = rear \t\t\t // 데이터를 이동할 위치",
         "\t 반복: i > lo이고, L->data[i - 1] > value인 동안",
-        "\t\t L->data[i + 1] = L->data[i]",
+        "\t\t L->data[i] = L->data[i - 1]",
         "\t\t i -= 1",
         "\t L->data[i] = value",
     ]),
@@ -269,7 +269,7 @@ slides = [
         "최종 정렬 결과: [1, 2, 3, 5, 7]","",
     ]),
     ("INTRO_SORT", [
-        "함수 INTRO_SORT(리스트 list, 인덱스 lo, 인덱스 hi, 정수 max_depth):","",
+        "함수 INTRO_SORT(리스트 list, 인덱스 lo, 인덱스 hi, 정수 limit):","",
         "만약: hi - lo < 15이면","",
         "\t INSERTION_SORT(list, lo, hi)","",
         "아니면 만약: limit == 0이면","",
@@ -297,7 +297,7 @@ slides = [
     ]),
     ("MERGE_SORT", [
         "함수 MERGE_SORT(리스트 L, 인덱스 lo, 인덱스 hi):","",
-        "만약: lo < right이면",
+        "만약: lo < hi이면",
         "\t mid = (lo + hi) / 2",
         "\t MERGE_SORT(L, lo, mid)",
         "\t MERGE_SORT(L, mid + 1, hi)",
@@ -417,39 +417,6 @@ slides = [
         "merge sort: O(n log n)","",
         "counting sort: O(n + k)","",
    ]),
-
-    ("BINARY_INSERTION_SORT", [
-        "이진 탐색을 이용해 제자리를 찾는 방법","",
-    ]),
-    ("BINARY_INSERTION_SORT", [
-        "함수 BINARY_INSERTION_SORT(리스트 list, 인덱스 left, 인덱스 right):",
-        "sorted = 새로운 리스트(list->data, 1)","",
-        "반복: i는 left + 1부터 right까지 증가","",
-        "\t value = list->data[i]","",
-        "\t lo = left, hi = i","",
-        "\t 반복: lo < hi일 동안","",
-        "\t\t mid = (lo + hi) / 2","",
-        "\t\t 만약: value <= list->data[mid]이면","",
-        "\t\t\t lo = mid + 1","",
-        "\t\t 아니면","",
-        "\t\t\t hi = mid","",
-        "\t ALIST_INSERT(list, lo, value)","",
-        "삭제: sorted","",
-    ]),
-
-    ("BINARY_INSERTION_SORT의 시간 복잡도", [
-        "평균 및 최악의 경우:",
-        "이진 탐색으로 제자리를 찾는데 O(log n)",
-        "찾은 위치로 이동하는데 O(n)",
-        "총 합: n번 반복하므로 O(n^2)",
-    ]),
-    ("BINARY_INSERTION_SORT의 시간 복잡도", [
-        "최선의 경우 (이미 거의 정렬됨):",
-        "이진 탐색으로 제자리를 찾는데 O(log n)",
-        "찾은 자리로 이동하는데 O(1), 가끔 O(n)",
-        "총 합: O(n log n) + O(n) = O(n log n)",
-    ]),
-
 ]
 
 # 슬라이드 생성
